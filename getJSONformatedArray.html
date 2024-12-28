@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSONBin Data Display</title>
+</head>
+<body>
+
+<div id="jsonDataDisplay"></div>
+
+<!-- Include the getJSONData.js script -->
+<script src="getJSONData.js"></script>
+
+<script>
+  // Example of calling the function
+  async function fetchDataAndDisplay() {
+	try {
+	  const jsonDataString = await getJSONData();
+
+	  // Parse the JSON string into an array object
+	  const jsonData = JSON.parse(jsonDataString);
+
+	  // Display JSON content in the console
+	  console.log('JSON Content:', jsonData);
+
+	  // Display JSON content in the HTML
+	  //The <pre> tag in HTML is used to display preformatted text. This means that the text inside the <pre> tag is displayed exactly as it is written in the HTML file, preserving spaces, line breaks, and indentation. This is particularly useful when displaying structured data such as JSON, code snippets, or any text where formatting should be maintained.
+	  const jsonDisplayElement = document.getElementById('jsonDataDisplay');
+	  jsonDisplayElement.innerHTML = '<pre>[</pre>';
+
+	  // Display each object vertically
+	  //the += operator is used to append additional HTML content to the existing content of the innerHTML property of jsonDisplayElement
+	  jsonData.forEach((jsonObject, index) => {
+		jsonDisplayElement.innerHTML += `<pre>${JSON.stringify(jsonObject, null, 2)}</pre>`;
+
+		// Add a comma after each object, except for the last one
+		if (index < jsonData.length - 1) {
+		  jsonDisplayElement.innerHTML += '<pre>,</pre>';
+		}
+	  });
+
+	  // Display the closing bracket for the JSON array
+	  jsonDisplayElement.innerHTML += '<pre>]</pre>';
+	} catch (error) {
+	  console.error('Error fetching data:', error.message);
+	}
+  }
+
+  // Call the function when the script is executed
+  fetchDataAndDisplay();
+</script>
+
+</body>
+</html>
+
